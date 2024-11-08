@@ -9,6 +9,9 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true, // with this configurations doesn't need to use @Type(() => Number) on .dtos
+      },
     }),
   );
   await app.listen(3000);
