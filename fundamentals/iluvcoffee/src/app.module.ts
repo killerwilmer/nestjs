@@ -9,7 +9,10 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      // ignoreEnvFile: true, // ignore .env file by the ConfigModule entirely for Heroku for example for
+      // envFilePath: '.environment', // we are looking instead for a file named .environment
+    }),
     CoffeesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
