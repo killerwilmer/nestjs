@@ -6,12 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       // ignoreEnvFile: true, // ignore .env file by the ConfigModule entirely for Heroku for example for
       // envFilePath: '.environment', // we are looking instead for a file named .environment
+      validationSchema: Joi.object({
+        DATABASE_HOST: Joi.required(),
+        DATABASE_PORT: Joi.number().default(5432),
+      }),
     }),
     CoffeesModule,
     TypeOrmModule.forRoot({
