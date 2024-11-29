@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Scope,
+} from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -7,7 +13,8 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class CoffeesService {
@@ -18,13 +25,16 @@ export class CoffeesService {
     private readonly flavorsRepository: Repository<Flavor>,
     private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     console.log('CoffeesService initialized');
-    const databaseHost = this.configService.get(
-      'database.host',
-      'default_value_if_not_exist',
-    );
-    console.log(databaseHost);
+    // const databaseHost = this.configService.get(
+    //   'database.host',
+    //   'default_value_if_not_exist',
+    // ); // not recommended use dot notation
+    // const coffeesConfig = this.configService.get('coffees.foo'); // useful, but we need to know the name and use dot notation
+    console.log(coffeesConfiguration.foo);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
