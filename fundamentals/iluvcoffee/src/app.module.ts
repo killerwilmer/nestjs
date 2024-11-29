@@ -7,10 +7,12 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      load: [appConfig],
       // ignoreEnvFile: true, // ignore .env file by the ConfigModule entirely for Heroku for example for
       // envFilePath: '.environment', // we are looking instead for a file named .environment
       validationSchema: Joi.object({

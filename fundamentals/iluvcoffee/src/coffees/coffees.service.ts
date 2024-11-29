@@ -21,7 +21,7 @@ export class CoffeesService {
   ) {
     console.log('CoffeesService initialized');
     const databaseHost = this.configService.get(
-      'DATABASE_HOST',
+      'database.host',
       'default_value_if_not_exist',
     );
     console.log(databaseHost);
