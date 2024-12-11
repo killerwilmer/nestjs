@@ -40,7 +40,7 @@ export class CoffeesController {
     @Query() paginationQuery: PaginationQueryDto,
   ) {
     console.log(protocol);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    // await new Promise((resolve) => setTimeout(resolve, 5000));// Only to simulate a delay for testing purposes
     return this.coffeesService.findAll(paginationQuery);
   }
 

@@ -18,8 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:e2e": "docker-compose up -d test-db",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "posttest:e2e": "docker-compose stop test-db && docker-compose rm -f test-db"
+    "run:jest": "jest --config ./test/jest-e2e.json $npm_config_args",
+    "posttest:e2e": "docker-compose stop test-db && docker-compose rm -f test-db",
+    "test:e2e": "npm-run-all --continue-on-error pretest:e2e run:jest posttest:e2e"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
