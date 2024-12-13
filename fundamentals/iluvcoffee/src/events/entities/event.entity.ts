@@ -7,7 +7,7 @@ export class Event extends mongoose.Document {
   @Prop()
   type: string;
 
-  @Prop()
+  @Prop({ index: true })
   name: string;
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
@@ -15,3 +15,4 @@ export class Event extends mongoose.Document {
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
+// EventSchema.index({ name: 1, type: -1 }); // compound index on name and type 1 for ascending and -1 for descending order
