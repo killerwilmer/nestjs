@@ -14,6 +14,7 @@ async function bootstrap() {
       options: {
         servers: process.env.NATS_URL,
         debug: true,
+        queue: 'workflows-service', // By default NATS ueses broadcast for all subscribers
       },
     },
     { inheritAppConfig: true },
