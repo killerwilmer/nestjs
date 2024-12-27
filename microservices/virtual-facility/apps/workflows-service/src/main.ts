@@ -10,11 +10,10 @@ async function bootstrap() {
 
   app.connectMicroservice<MicroserviceOptions>(
     {
-      transport: Transport.NATS,
+      transport: Transport.RMQ,
       options: {
-        servers: process.env.NATS_URL,
-        debug: true,
-        queue: 'workflows-service', // By default NATS ueses broadcast for all subscribers
+        urls: [process.env.RABBITMQ_URL],
+        queue: 'workflows-service',
       },
     },
     { inheritAppConfig: true },
