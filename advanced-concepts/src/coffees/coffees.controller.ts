@@ -37,6 +37,7 @@ export class CoffeesController {
   }
 
   @Patch(':id')
+  // @Param('id', EntityExistsPipe(Coffee)) id: string, // Mixins with Pipes
   update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesService.update(+id, updateCoffeeDto);
   }
