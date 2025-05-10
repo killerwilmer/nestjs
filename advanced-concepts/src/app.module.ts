@@ -6,6 +6,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
 import { CronModule } from './cron/cron.module';
 import { FibonacciModule } from './fibonacci/fibonacci.module';
 import { HttpClientModule } from './http-client/http-client.module';
+import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HttpClientModule } from './http-client/http-client.module';
     HttpClientModule.register({
       baseUrl: 'https://api.example.com',
     }),
+    RecipesModule,
     // Alternatively
     // HttpClientModule.registerAsync({
     //   useFactory: () => ({
