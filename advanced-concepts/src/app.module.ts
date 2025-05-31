@@ -10,6 +10,13 @@ import { RecipesModule } from './recipes/recipes.module';
 import { TagsModule } from './tags/tags.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PaymentsModule } from './payments/payments.module';
+import { DataSourceModule } from './data-source/data-source.module';
+import { UsersModule } from './users/users.module';
+import { ContextIdFactory } from '@nestjs/core';
+import { AggregateByTenantContextIdStrategy } from './core/aggregate-by-tenant.strategy';
+
+// This is an example of how to set a custom context ID strategy for the application, globally.
+ContextIdFactory.apply(new AggregateByTenantContextIdStrategy());
 
 @Module({
   imports: [
@@ -24,6 +31,8 @@ import { PaymentsModule } from './payments/payments.module';
     RecipesModule,
     TagsModule,
     PaymentsModule,
+    DataSourceModule,
+    UsersModule,
     // Alternatively
     // HttpClientModule.registerAsync({
     //   useFactory: () => ({
