@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { CreateAlarmDto } from './dto/create-alarm.dto';
 import { AlarmsService } from '../../application/alarms.service';
 import { CreateAlarmCommand } from '../../application/commands/create-alarm.command';
@@ -15,7 +15,10 @@ export class AlarmsController {
   }
 
   @Get()
-  findAll() {
-    return this.alarmsService.findAll();
+  findAll(
+    @Query('limit') limit: string = '10',
+    @Query('offset') offset: string = '0',
+  ) {
+    return this.alarmsService.findAll(Number(limit), Number(offset));
   }
 }

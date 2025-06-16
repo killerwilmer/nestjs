@@ -13,9 +13,25 @@ export class OrmAlarmRepository implements AlarmRepository {
     private readonly alarmRepository: Repository<AlarmEntity>,
   ) {}
 
-  async findAll(): Promise<Alarm[]> {
-    const entities = await this.alarmRepository.find();
+  async findAll(limit: number, offset: number): Promise<Alarm[]> {
+    const entities = await this.alarmRepository.find({
+      skip: offset,
+      take: limit,
+    });
     return entities.map((item) => AlarmMapper.toDomain(item));
+  }
+
+  async findAllWithTotal(
+    limit: number,
+    offset: number,
+  ): Promise<[Alarm[], number]> {
+    const [entities, total] = await this.alarmRepository.findAndCount({
+      skip: offset,
+      take: limit,
+    });
+
+    const data = entities.map((item) => AlarmMapper.toDomain(item));
+    return [data, total];
   }
 
   async save(alarm: Alarm): Promise<Alarm> {

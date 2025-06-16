@@ -8,9 +8,22 @@ import { AlarmMapper } from '../mappers/alarm.mapper';
 export class InMemoryAlarmRepository implements AlarmRepository {
   private readonly alarms = new Map<string, AlarmEntity>();
 
-  async findAll(): Promise<Alarm[]> {
-    const entities = Array.from(this.alarms.values());
+  async findAll(limit: number, offset: number): Promise<Alarm[]> {
+    const entities = Array.from(this.alarms.values()).slice(
+      offset,
+      offset + limit,
+    );
     return entities.map((item) => AlarmMapper.toDomain(item));
+  }
+
+  async findAllWithTotal(
+    limit: number,
+    offset: number,
+  ): Promise<[Alarm[], number]> {
+    const all = Array.from(this.alarms.values());
+    const paginated = all.slice(offset, offset + limit);
+    const data = paginated.map((item) => AlarmMapper.toDomain(item));
+    return [data, all.length];
   }
 
   async save(alarm: Alarm): Promise<Alarm> {
