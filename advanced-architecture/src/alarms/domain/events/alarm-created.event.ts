@@ -1,4 +1,4 @@
-import { AutowiredEvent } from '../../../shared/decorators/autowired-event.decorator.ts';
+import { AutowiredEvent } from '../../../shared/decorators/autowired-event.decorator';
 import { Alarm } from '../alarm';
 
 @AutowiredEvent

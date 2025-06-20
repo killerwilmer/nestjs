@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Query,
+  Patch,
+  Param,
+} from '@nestjs/common';
 import { CreateAlarmDto } from './dto/create-alarm.dto';
 import { AlarmsService } from '../../application/alarms.service';
 import { CreateAlarmCommand } from '../../application/commands/create-alarm.command';
@@ -25,5 +33,10 @@ export class AlarmsController {
     @Query('offset') offset: string = '0',
   ) {
     return this.alarmsService.findAll(Number(limit), Number(offset));
+  }
+
+  @Patch(':id/acknowledge')
+  acknowledge(@Param('id') id: string) {
+    return this.alarmsService.acknowledge(id);
   }
 }
