@@ -17,4 +17,20 @@ export class AuthenticationController {
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
   }
+
+  // Uncomment the following code if you want to use cookies for storing access tokens
+  // @HttpCode(HttpStatus.OK)
+  // @Post('sign-in')
+  // async signIn(
+  //   @Res({ passthrough: true })
+  //   response: Response,
+  //   @Body() signInDto: SignInDto,
+  // ) {
+  //   const accessToken = await this.authService.signIn(signInDto);
+  //   response.cookie('accessToken', accessToken, {
+  //     secure: true,
+  //     httpOnly: true,
+  //     sameSite: true,
+  //   });
+  // }
 }
