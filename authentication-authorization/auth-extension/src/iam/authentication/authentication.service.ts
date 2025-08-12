@@ -82,6 +82,8 @@ export class AuthenticationService {
         {
           email: user.email,
           role: user.role,
+          // ⚠️ WARNING
+          permissions: user.permissions, // 👈👈👈
         },
       ),
 
