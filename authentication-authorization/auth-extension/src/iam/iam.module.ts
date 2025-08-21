@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
 import { AuthenticationController } from './authentication/authentication.controller';
@@ -23,6 +23,13 @@ import { ApiKeyGuard } from './authentication/guards/api-key.guard';
 import { GoogleAuthenticationService } from './authentication/social/google-authentication.service';
 import { GoogleAuthenticationController } from './authentication/social/google-authentication.controller';
 import { OtpAuthenticationService } from './authentication/otp-authentication.service';
+import { SessionAuthenticationService } from './authentication/session-authentication.service';
+import { SessionAuthenticationController } from './authentication/session-authentication.controller';
+import * as session from 'express-session';
+import * as passport from 'passport';
+import { UserSerializer } from './authentication/serializers/user-serializer';
+import { RedisStore } from 'connect-redis';
+import { createClient } from 'redis';
 
 @Module({
   imports: [
@@ -52,7 +59,39 @@ import { OtpAuthenticationService } from './authentication/otp-authentication.se
     ApiKeysService,
     GoogleAuthenticationService,
     OtpAuthenticationService,
+    SessionAuthenticationService,
+    UserSerializer,
   ],
-  controllers: [AuthenticationController, GoogleAuthenticationController],
+  controllers: [
+    AuthenticationController,
+    GoogleAuthenticationController,
+    SessionAuthenticationController,
+  ],
 })
-export class IamModule {}
+export class IamModule implements NestModule {
+  async configure(consumer: MiddlewareConsumer) {
+    const redisClient = createClient({
+      socket: { host: 'localhost', port: 6379 },
+    });
+    await redisClient.connect();
+
+    consumer
+      .apply(
+        session({
+          store: new RedisStore({
+            client: redisClient,
+          }),
+          secret: process.env.SESSION_SECRET || 'secret',
+          resave: false,
+          saveUninitialized: false,
+          cookie: {
+            sameSite: true,
+            httpOnly: true,
+          },
+        }),
+        passport.initialize(),
+        passport.session(),
+      )
+      .forRoutes('*');
+  }
+}

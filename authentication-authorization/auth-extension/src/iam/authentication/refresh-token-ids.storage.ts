@@ -3,7 +3,7 @@ import {
   OnApplicationBootstrap,
   OnApplicationShutdown,
 } from '@nestjs/common';
-import Redis from 'ioredis';
+import { createClient, RedisClientType } from 'redis';
 
 // 💡 Ideally this should be in a separate file - putting this here for brevity
 export class InvalidatedRefreshTokenError extends Error {}
@@ -12,19 +12,28 @@ export class InvalidatedRefreshTokenError extends Error {}
 export class RefreshTokenIdsStorage
   implements OnApplicationBootstrap, OnApplicationShutdown
 {
-  private redisClient: Redis;
+  private redisClient: RedisClientType;
 
-  onApplicationBootstrap() {
-    // TODO: Ideally, we should move this to the dedicated "RedisModule"
-    // instead of initiating the connection here.
-    this.redisClient = new Redis({
-      host: 'localhost', // NOTE: According to best practices, we should use the environment variables here instead.
-      port: 6379, // 👆
+  async onApplicationBootstrap() {
+    // ⚡ Conexión con redis@4
+    this.redisClient = createClient({
+      socket: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: +(process.env.REDIS_PORT || 6379),
+      },
     });
+
+    this.redisClient.on('error', (err) =>
+      console.error('Redis Client Error', err),
+    );
+
+    await this.redisClient.connect();
   }
 
-  onApplicationShutdown(signal?: string) {
-    return this.redisClient.quit();
+  async onApplicationShutdown(signal?: string) {
+    if (this.redisClient) {
+      await this.redisClient.quit();
+    }
   }
 
   async insert(userId: number, tokenId: string): Promise<void> {
