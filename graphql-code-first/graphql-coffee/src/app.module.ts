@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DateScalar } from './common/scalars/date.scalar';
 
 @Module({
   imports: [
@@ -24,11 +25,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       buildSchemaOptions: {
         // numberScalarMode: 'integer', // To generate Int instead of Float for number type
+        // dateScalarMode: 'timestamp', // To generate Date scalar as timestamp, switching to GraphQLTimestamp (if you ever need it)
       },
     }),
     CoffeesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DateScalar],
 })
 export class AppModule {}
