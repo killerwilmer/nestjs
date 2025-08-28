@@ -2,11 +2,12 @@ import { Query, Resolver } from '@nestjs/graphql';
 import { Drink } from '../common/interfaces/drink.interface';
 import { Coffee } from '../coffees/entities/coffee.entity';
 import { Tea } from '../teas/entities/tea.entity';
+import { DrinksResultUnion } from '../common/unions/drinks-result.union';
 
 @Resolver()
 export class DrinksResolver {
-  @Query(() => [Drink], { name: 'drinks' })
-  async findAll(): Promise<Drink[]> {
+  @Query(() => [DrinksResultUnion], { name: 'drinks' })
+  async findAll(): Promise<(typeof DrinksResultUnion)[]> {
     // we're mocking everything just for demonstration purposes
     const coffee = new Coffee();
     coffee.id = 1;
