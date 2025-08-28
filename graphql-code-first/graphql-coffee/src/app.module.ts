@@ -7,6 +7,8 @@ import { join } from 'path';
 import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DateScalar } from './common/scalars/date.scalar';
+import { Tea } from './teas/entities/tea.entity';
+import { DrinksResolver } from './drinks/drinks.resolver';
 
 @Module({
   imports: [
@@ -26,11 +28,12 @@ import { DateScalar } from './common/scalars/date.scalar';
       buildSchemaOptions: {
         // numberScalarMode: 'integer', // To generate Int instead of Float for number type
         // dateScalarMode: 'timestamp', // To generate Date scalar as timestamp, switching to GraphQLTimestamp (if you ever need it)
+        orphanedTypes: [Tea], // To include types that are not directly referenced in the schema
       },
     }),
     CoffeesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DateScalar],
+  providers: [AppService, DateScalar, DrinksResolver],
 })
 export class AppModule {}
