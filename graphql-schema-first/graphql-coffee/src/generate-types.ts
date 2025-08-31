@@ -8,4 +8,5 @@ definitionsFactory.generate({
   outputAs: 'class', // 'interface' | 'class' by default is 'interface'
   watch: true, // automatically generate types on changes
   skipResolverArgs: true, // generate resolvers wich are query/mutation/subscription as plain fields without arguments
+  defaultTypeMapping: { ID: 'number' }, // map GraphQL ID to number instead of string
 });
