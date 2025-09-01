@@ -1,10 +1,12 @@
+""" Coffee model """
 type Coffee {
-  id: ID!
-  name: String!
-  brand: String!
-  flavors: [String!]!
+    """ A unique identifier """
+    id: ID! # ID Scalar - non-nullable (required)
+    name: String! # String Scalar - non-nullable (required)
+    brand: String! # String Scalar - non-nullable (required)
+    flavors: [String!]! # List of String Scalar - non-nullable (required) with non-nullable items
 }
 
 type Query {
-  coffees: [Coffee!]! 
+    coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
 }
