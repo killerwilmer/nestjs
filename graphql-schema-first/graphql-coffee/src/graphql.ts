@@ -17,6 +17,7 @@ export class Coffee {
 
 export abstract class IQuery {
     coffees: Coffee[];
+    coffee?: Nullable<Coffee>;
 }
 
 type Nullable<T> = T | null;

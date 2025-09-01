@@ -9,4 +9,5 @@ type Coffee {
 
 type Query {
     coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
+    coffee(id: ID!): Coffee
 }
