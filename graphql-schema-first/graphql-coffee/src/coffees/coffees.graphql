@@ -7,7 +7,20 @@ type Coffee {
     flavors: [String!]! # List of String Scalar - non-nullable (required) with non-nullable items
 }
 
+"""Create coffee input object type."""
+input CreateCoffeeInput {
+    """A new coffee name."""
+    name: String!
+    brand: String!
+    flavors: [String!]! 
+}
+
+
 type Query {
     coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
     coffee(id: ID!): Coffee
+}
+
+type Mutation {
+  createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee
 }
