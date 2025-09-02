@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Coffee } from './entities/coffee.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserInputError } from '@nestjs/apollo';
+import { CreateCoffeeInput } from './dto/create-coffee.input';
+import { UpdateCoffeeInput } from './dto/update-coffee.input';
 
 @Injectable()
 export class CoffeesService {
@@ -26,16 +28,14 @@ export class CoffeesService {
     return coffee;
   }
 
-  async create(
-    createCoffeeInput: GraphQLTypes.CreateCoffeeInput,
-  ): Promise<Coffee> {
+  async create(createCoffeeInput: CreateCoffeeInput): Promise<Coffee> {
     const coffee = this.coffeesRepository.create(createCoffeeInput);
     return this.coffeesRepository.save(coffee);
   }
 
   async update(
     id: number,
-    updateCoffeeInput: GraphQLTypes.UpdateCoffeeInput,
+    updateCoffeeInput: UpdateCoffeeInput,
   ): Promise<Coffee> {
     const normalizedInput = Object.fromEntries(
       Object.entries(updateCoffeeInput).map(([k, v]) => [

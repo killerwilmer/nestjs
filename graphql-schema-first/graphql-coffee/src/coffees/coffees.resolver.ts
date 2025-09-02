@@ -2,6 +2,8 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import * as GraphQLTypes from '../graphql-types';
 import { ParseIntPipe } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
+import { CreateCoffeeInput } from './dto/create-coffee.input';
+import { UpdateCoffeeInput } from './dto/update-coffee.input';
 
 @Resolver()
 export class CoffeesResolver {
@@ -20,7 +22,7 @@ export class CoffeesResolver {
   @Mutation('createCoffee') // notice we're decoupled the name from the actual GQL mutation name 'createCoffee'
   async create(
     @Args('createCoffeeInput')
-    createCoffeeInput: GraphQLTypes.CreateCoffeeInput,
+    createCoffeeInput: CreateCoffeeInput,
   ): Promise<GraphQLTypes.Coffee> {
     return this.coffeesService.create(createCoffeeInput);
   }
@@ -29,7 +31,7 @@ export class CoffeesResolver {
   async update(
     @Args('id', ParseIntPipe) id: number,
     @Args('updateCoffeeInput')
-    updateCoffeeInput: GraphQLTypes.UpdateCoffeeInput,
+    updateCoffeeInput: UpdateCoffeeInput,
   ): Promise<GraphQLTypes.Coffee> {
     return this.coffeesService.update(id, updateCoffeeInput);
   }
