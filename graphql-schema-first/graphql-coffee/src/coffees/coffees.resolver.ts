@@ -21,7 +21,7 @@ export class CoffeesResolver {
   async create(
     @Args('createCoffeeInput')
     createCoffeeInput: GraphQLTypes.CreateCoffeeInput,
-  ): Promise<GraphQLTypes.Coffee | null> {
+  ): Promise<GraphQLTypes.Coffee> {
     return this.coffeesService.create(createCoffeeInput);
   }
 }

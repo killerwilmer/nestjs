@@ -1,17 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import * as GraphQLTypes from '../graphql-types';
+import { Repository } from 'typeorm';
+import { Coffee } from './entities/coffee.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserInputError } from '@nestjs/apollo';
 
 @Injectable()
 export class CoffeesService {
-  async findAll() {
-    return [];
+  constructor(
+    @InjectRepository(Coffee)
+    private readonly coffeesRepository: Repository<Coffee>,
+  ) {}
+
+  async findAll(): Promise<Coffee[]> {
+    return this.coffeesRepository.find();
   }
 
-  async findOne(id: number) {
-    return null;
+  async findOne(id: number): Promise<Coffee> {
+    const coffee = await this.coffeesRepository.findOne({ where: { id } });
+
+    if (!coffee) {
+      throw new UserInputError(`Coffee #${id} does not exist`);
+    }
+
+    return coffee;
   }
 
-  async create(createCoffeeInput: GraphQLTypes.CreateCoffeeInput) {
-    return null;
+  async create(
+    createCoffeeInput: GraphQLTypes.CreateCoffeeInput,
+  ): Promise<Coffee> {
+    const coffee = this.coffeesRepository.create(createCoffeeInput);
+    return this.coffeesRepository.save(coffee);
   }
 }
