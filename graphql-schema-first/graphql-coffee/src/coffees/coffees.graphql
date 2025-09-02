@@ -15,6 +15,12 @@ input CreateCoffeeInput {
     flavors: [String!]! 
 }
 
+input UpdateCoffeeInput {
+    name: String
+    brand: String
+    flavors: [String!]
+}
+
 
 type Query {
     coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
@@ -22,5 +28,7 @@ type Query {
 }
 
 type Mutation {
-  createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee!
+    createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee!
+    updateCoffee(id: ID!, updateCoffeeInput: UpdateCoffeeInput!): Coffee!
+    removeCoffee(id: ID!): Coffee!
 }
