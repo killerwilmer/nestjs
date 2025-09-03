@@ -1,3 +1,5 @@
+scalar Date
+
 """ Coffee model """
 type Coffee {
     """ A unique identifier """
@@ -5,6 +7,7 @@ type Coffee {
     name: String! # String Scalar - non-nullable (required)
     brand: String! # String Scalar - non-nullable (required)
     flavors: [Flavor!]
+    createdAt: Date
 }
 
 type Flavor {
