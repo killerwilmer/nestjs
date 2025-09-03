@@ -28,4 +28,7 @@ export class Coffee implements GraphQLTypes.Coffee {
 
   @CreateDateColumn() // This will automatically set the date when the entity is first created
   createdAt?: Date | null;
+
+  @Column({ nullable: true })
+  type: GraphQLTypes.CoffeeType;
 }

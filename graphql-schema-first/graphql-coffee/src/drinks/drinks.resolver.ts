@@ -1,10 +1,10 @@
 import { Query, ResolveField, Resolver } from '@nestjs/graphql';
 import * as GraphQLTypes from '../graphql-types';
 
-@Resolver('Drink')
+@Resolver('DrinksResult')
 export class DrinksResolver {
   @Query('drinks')
-  async findAll(): Promise<GraphQLTypes.Drink[]> {
+  async findAll(): Promise<GraphQLTypes.DrinksResult[]> {
     // we're mocking everything just for demonstration purposes
     const coffee = new GraphQLTypes.Coffee();
     coffee.id = 1;

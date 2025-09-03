@@ -8,6 +8,10 @@ type Tea implements Drink {
   name: String!
 }
 
+enum CoffeeType {
+  ARABICA
+  ROBUSTA
+}
 
 """ Coffee model """
 type Coffee implements Drink {
@@ -17,6 +21,7 @@ type Coffee implements Drink {
     brand: String! # String Scalar - non-nullable (required)
     flavors: [Flavor!]
     createdAt: Date
+    type: CoffeeType
 }
 
 type Flavor {
@@ -30,19 +35,22 @@ input CreateCoffeeInput {
     name: String!
     brand: String!
     flavors: [String!]! 
+    type: CoffeeType
 }
 
 input UpdateCoffeeInput {
     name: String
     brand: String
     flavors: [String!]
+    type: CoffeeType
 }
 
+union DrinksResult = Coffee | Tea
 
 type Query {
     coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
     coffee(id: ID!): Coffee!
-    drinks: [Drink!]!
+    drinks: [DrinksResult!]!
 }
 
 type Mutation {

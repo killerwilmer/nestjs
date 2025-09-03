@@ -36,8 +36,15 @@ export class CoffeesService {
       createCoffeeInput.flavors.map((name) => this.preloadFlavorByName(name)),
     );
 
+    const normalizedInput = Object.fromEntries(
+      Object.entries(createCoffeeInput).map(([k, v]) => [
+        k,
+        v === null ? undefined : v,
+      ]),
+    );
+
     const coffee = this.coffeesRepository.create({
-      ...createCoffeeInput,
+      ...normalizedInput,
       flavors,
     });
 
