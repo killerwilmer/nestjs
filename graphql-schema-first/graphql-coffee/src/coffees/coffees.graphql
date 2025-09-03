@@ -1,7 +1,16 @@
 scalar Date
 
+interface Drink {
+  name: String!
+}
+
+type Tea implements Drink {
+  name: String!
+}
+
+
 """ Coffee model """
-type Coffee {
+type Coffee implements Drink {
     """ A unique identifier """
     id: ID! # ID Scalar - non-nullable (required)
     name: String! # String Scalar - non-nullable (required)
@@ -33,6 +42,7 @@ input UpdateCoffeeInput {
 type Query {
     coffees: [Coffee!]! # non-nullable (required) Array of non-nullable String's (required)
     coffee(id: ID!): Coffee!
+    drinks: [Drink!]!
 }
 
 type Mutation {
