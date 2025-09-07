@@ -10,6 +10,6 @@ export class OrdersController {
   ) {}
   @Post()
   createOrder(@Body() order: any) {
-    return this.ordersServiceClient.send({ cmd: 'create_order' }, order);
+    return this.ordersServiceClient.send('create_order', order);
   }
 }
