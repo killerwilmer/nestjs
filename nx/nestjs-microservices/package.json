@@ -38,7 +38,8 @@
   },
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ],
   "dependencies": {
     "@grpc/grpc-js": "^1.13.4",
